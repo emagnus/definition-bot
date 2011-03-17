@@ -28,7 +28,6 @@ def extract_menu(doc):
 				day_prices.append(mangle(BeautifulSoup(item.prettify().replace("\n","")).findAll("td")[0].contents).replace(",-",""))
 			menu.append(zip(day_menu,day_prices))
 	return menu
-	#return ["Error.. :("]*5
 		
 def todays_menu(urls):
 	print "fetching menu..."
@@ -38,10 +37,12 @@ def todays_menu(urls):
 	r = []
 	for title in urls.keys():
 		r.append(title)
-		lines =  extract_menu(fetch(urls[title]))[today]
-		
-		for x in xrange(len(lines)):
-			r.append(str(x+1)+". " + lines[x][0] + ", "+lines[x][1])
+		try:
+			lines =  extract_menu(fetch(urls[title]))[today]
+			for x in xrange(len(lines)):
+				r.append(str(x+1)+". " + lines[x][0] + ", "+lines[x][1])
+		except:
+			r.append("error :(")
 	print "done"
 	return r
 

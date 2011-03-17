@@ -44,7 +44,7 @@ class DinnerBotFactory(protocol.ClientFactory):
 if __name__ == "__main__":
     try:
         chan = sys.argv[1]
-    except IndexError:
+    except:
         print "Usage:"
         print "python sit-dinner-bot.py channel"
     reactor.connectTCP('irc.freenode.net', 6667, DinnerBotFactory('#' + chan, 'dinnerbot'))
