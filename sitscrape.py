@@ -31,7 +31,7 @@ def extract_menu(doc):
 	#return ["Error.. :("]*5
 		
 def todays_menu(urls):
-	print urls
+	print "fetching menu..."
 	today = datetime.now().weekday()
 	if today > 4:
 		return ["No dinner today, it's closed on saturday and sunday.)"]
@@ -42,8 +42,10 @@ def todays_menu(urls):
 		
 		for x in xrange(len(lines)):
 			r.append(str(x+1)+". " + lines[x][0] + ", "+lines[x][1])
+	print "done"
 	return r
 
-for l in todays_menu({ "Realfag":"http://www.sit.no/content/36447/Ukas-middagsmeny-pa-Realfag", 
-					"Hangaren":"http://www.sit.no/content/36444/Ukas-middagsmeny-pa-Hangaren"}):
-	print l
+if __name__ == "main":
+	sites = { "Realfag":"http://www.sit.no/content/36447/Ukas-middagsmeny-pa-Realfag", "Hangaren":"http://www.sit.no/content/36444/Ukas-middagsmeny-pa-Hangaren"}
+	for l in todays_menu(sites):
+		print l

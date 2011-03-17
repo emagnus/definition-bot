@@ -2,6 +2,7 @@ from twisted.words.protocols import irc
 from twisted.internet import protocol
 from twisted.internet import reactor
 import sys
+import sitscrape
 
 class DinnerBot(irc.IRCClient):
 	def _get_nickname(self):
@@ -18,9 +19,12 @@ class DinnerBot(irc.IRCClient):
 	def privmsg(self, user, channel, msg):
 		if not user:
 			return
-		if self.nickname in msg:
+		if "!middag" in msg:
+			sites = { "Realfag":"http://www.sit.no/content/36447/Ukas-middagsmeny-pa-Realfag", 
+					"Hangaren":"http://www.sit.no/content/36444/Ukas-middagsmeny-pa-Hangaren"}
 			#TODO rate limit this, and cache...
-			menu_lines = sitscrape.
+			menu_lines = sitscrape.todays_menu(sites)
+			self.msg(self.factory.channel, "Todays menu is..")
 			for line in menu_lines:
 				self.msg(self.factory.channel, line)
 
@@ -42,6 +46,6 @@ if __name__ == "__main__":
         chan = sys.argv[1]
     except IndexError:
         print "Usage:"
-        print "  python sit-dinner-bot.py channel"
+        print "python sit-dinner-bot.py channel"
     reactor.connectTCP('irc.freenode.net', 6667, DinnerBotFactory('#' + chan, 'dinnerbot'))
     reactor.run()
