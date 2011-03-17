@@ -13,7 +13,7 @@ def fetch(url):
 def mangle(string):
 	"""Strip non ascii chars
 	"""
-	return reduce(lambda x,y: x+y, map(unicode,string)).encode("ascii","replace").replace("??","_").replace("?","_")
+	return reduce(lambda x,y: x+y, map(unicode,string)).decode("utf-8").encode("utf-8")
 	
 def extract_menu(doc):
 	soup = BeautifulSoup(doc)

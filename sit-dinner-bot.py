@@ -24,7 +24,7 @@ class DinnerBot(irc.IRCClient):
 					"Hangaren":"http://www.sit.no/content/36444/Ukas-middagsmeny-pa-Hangaren"}
 			#TODO rate limit this, and cache...
 			menu_lines = sitscrape.todays_menu(sites)
-			self.msg(self.factory.channel, "Todays menu is..")
+			self.msg(self.factory.channel, "Today's menu is..")
 			for line in menu_lines:
 				self.msg(self.factory.channel, line)
 
