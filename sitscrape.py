@@ -25,7 +25,7 @@ def extract_menu(doc):
 			for item in table.findAll("td", {"class":"menycelle"}):
 				day_menu.append(mangle(BeautifulSoup(item.prettify().replace("\n","")).findAll("td")[0].contents))
 			for item in table.findAll("td", {"class":"priscelle"}):
-				day_prices.append(mangle(BeautifulSoup(item.prettify().replace("\n","")).findAll("td")[0].contents).replace(",-",""))
+				day_prices.append(mangle(BeautifulSoup(item.prettify().replace("\n","")).findAll("td")[0].contents).replace(",-","")+",-")
 			menu.append(zip(day_menu,day_prices))
 	return menu
 		
