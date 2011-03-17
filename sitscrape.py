@@ -37,16 +37,14 @@ def todays_menu(urls):
 	r = []
 	for title in urls.keys():
 		r.append(title)
-		try:
-			lines =  extract_menu(fetch(urls[title]))[today]
-			for x in xrange(len(lines)):
-				r.append(str(x+1)+". " + lines[x][0] + ", "+lines[x][1])
-		except:
-			r.append("error :(")
+		lines =  extract_menu(fetch(urls[title]))[today]
+		for x in xrange(len(lines)):
+			r.append(str(x+1)+". " + lines[x][0] + ", "+lines[x][1])
+		#r.append("error :(")
 	print "done"
 	return r
 
-if __name__ == "main":
+if __name__ == "__main__":
 	sites = { "Realfag":"http://www.sit.no/content/36447/Ukas-middagsmeny-pa-Realfag", "Hangaren":"http://www.sit.no/content/36444/Ukas-middagsmeny-pa-Hangaren"}
 	for l in todays_menu(sites):
 		print l
