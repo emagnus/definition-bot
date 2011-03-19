@@ -11,11 +11,13 @@ def fetch(url):
 	return response.read()
 
 def mangle(string):
-	"""Strip non ascii chars
+	""" Hacky fix for Twisted unicode issues and general charset conversion problems.
 	"""
 	return reduce(lambda x,y: x+y, map(unicode,string)).decode("utf-8").encode("utf-8")
 	
 def extract_menu(doc):
+	""" Input: html from sit.no with a menu table, output: menu as list
+	"""
 	soup = BeautifulSoup(doc)
 	menu = []
 	for tag in soup.findAll("table", {"id":"menytable"}):
@@ -25,11 +27,14 @@ def extract_menu(doc):
 			for item in table.findAll("td", {"class":"menycelle"}):
 				day_menu.append(mangle(BeautifulSoup(item.prettify().replace("\n","")).findAll("td")[0].contents))
 			for item in table.findAll("td", {"class":"priscelle"}):
-				day_prices.append(mangle(BeautifulSoup(item.prettify().replace("\n","")).findAll("td")[0].contents).replace(",-","")+",-")
+				day_prices.append(mangle(BeautifulSoup(item.prettify().replace("\n","")).findAll("td")[0].contents).replace(",-",""))
 			menu.append(zip(day_menu,day_prices))
 	return menu
 		
 def todays_menu(urls):
+	""" Given a set of URLs pointing to menu pages on sit.no, this returns todays menu as a list of lists, containing lines
+		for the IRC bot to display.
+	"""
 	print "Henter meny.."
 	today = datetime.now().weekday()
 	if today > 4:
@@ -47,6 +52,7 @@ def todays_menu(urls):
 	return r
 
 if __name__ == "__main__":
+	""" For testing """
 	sites = { "Realfag":"http://www.sit.no/content/36447/Ukas-middagsmeny-pa-Realfag", "Hangaren":"http://www.sit.no/content/36444/Ukas-middagsmeny-pa-Hangaren"}
 	for l in todays_menu(sites):
 		print l
