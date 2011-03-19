@@ -30,18 +30,20 @@ def extract_menu(doc):
 	return menu
 		
 def todays_menu(urls):
-	print "fetching menu..."
+	print "Henter meny.."
 	today = datetime.now().weekday()
 	if today > 4:
-		return ["No dinner today, it's closed on saturday and sunday.)"]
+		return ["Kantina er stengt i helgene."]
 	r = []
 	for title in urls.keys():
 		r.append(title)
-		lines =  extract_menu(fetch(urls[title]))[today]
-		for x in xrange(len(lines)):
-			r.append(str(x+1)+". " + lines[x][0] + ", "+lines[x][1])
-		#r.append("error :(")
-	print "done"
+		try:
+			lines =  extract_menu(fetch(urls[title]))[today]
+			for x in xrange(len(lines)):
+				r.append(str(x+1)+". " + lines[x][0] + ", "+lines[x][1])
+		except:
+			r.append("Feil under henting av meny :(")
+	print ".. ferdig"
 	return r
 
 if __name__ == "__main__":
