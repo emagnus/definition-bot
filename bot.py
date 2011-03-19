@@ -49,7 +49,7 @@ if __name__ == "__main__":
 		chan = sys.argv[2]
 		server = sys.argv[3]
 		port = sys.argv[4]
-		reactor.connectTCP(server, port, DinnerBotFactory("#"+chan, nick))
+		reactor.connectTCP(server, int(port), DinnerBotFactory("#"+chan, nick))
 		reactor.run()
 	except:
 		print "Usage:"
