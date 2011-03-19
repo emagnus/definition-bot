@@ -1,3 +1,5 @@
+# credit goes to github.com/emagnus for the IRC code
+
 from twisted.words.protocols import irc
 from twisted.internet import protocol
 from twisted.internet import reactor
@@ -46,10 +48,11 @@ if __name__ == "__main__":
 		nick = sys.argv[1]
 		chan = sys.argv[2]
 		server = sys.argv[3]
-		reactor.connectTCP(server, 6667, DinnerBotFactory("#"+chan, nick))
+		port = sys.argv[4]
+		reactor.connectTCP(server, port, DinnerBotFactory("#"+chan, nick))
 		reactor.run()
 	except:
 		print "Usage:"
-		print "python sit-dinner-bot.py nick channel server"
+		print "python sit-dinner-bot.py nick channel server port"
 		print ""
 		print "Omit # for channel"
