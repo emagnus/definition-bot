@@ -1,9 +1,8 @@
 from BeautifulSoup import BeautifulSoup
 from BeautifulSoup import BeautifulStoneSoup
 from BeautifulSoup import NavigableString
-from datetime import datetime
-import time
 import urllib2
+import urllib
 import unicodedata
 
 def fetch(url):
@@ -15,12 +14,13 @@ def fetch(url):
 def udquery(query):
     """ Prepare and query urban dictionary
     """
-    query = "+".join(query)
-    url = "http://www.urbandictionary.com/define.php/?term="+query
+    queryurl = "+".join(urllib.quote(q, '') for q in query)
+    url = "http://www.urbandictionary.com/define.php/?term="+queryurl
     soup = BeautifulSoup(fetch(url))    
     try:
         html = extract_text(soup.find("div",{"class":"definition"}).contents).replace("\r","")
         text = BeautifulStoneSoup(html,convertEntities=BeautifulStoneSoup.HTML_ENTITIES).contents[0]
+        text = shortify(text,400)
         definition = unicode(text).decode("utf-8").encode("utf-8")
     except:
         definition = "Ingen definisjon."
@@ -36,6 +36,13 @@ def extract_text(contents):
         return s
     if type(contents) == NavigableString:
         return contents
+
+def shortify(text, charlimit):
+    if len(text) > charlimit:
+        short = text[:text.rfind(".",0,charlimit)+1]
+        if len(short) > 40:
+            return short
+    return text 
     
 
         
